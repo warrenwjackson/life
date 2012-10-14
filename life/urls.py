@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     url(r'^login/', 'track.views.loginview', name='login'),
     url(r'^auth/', 'track.views.sign_up_in', name='sign_up_in'),
     url(r'^day/', 'track.views.day', name='day'),
-    url(r'^static/(?P<path>.*)$', 'serve'),
+#    url(r'^static/(?P<path>.*)$', name='serve'),
     url(r'^summary/', 'track.views.summary', name='summary'),
     url(r'^$', 'track.views.entry', name='entry'),
  
