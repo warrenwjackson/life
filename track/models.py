@@ -12,3 +12,6 @@ class Day(models.Model):
     state = models.CharField(max_length=2, null=True)
     country = models.CharField(max_length=2, null=True)
     content = models.CharField(max_length=140, null=True)
+    
+    class Meta:
+        unique_together = ('user', 'day')

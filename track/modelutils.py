@@ -13,9 +13,20 @@ def user_exists(email):
     return True
 
 def record_day(user, day, happiness, work, case, content):
-    day = models.Day(user=user, day=day, happiness=happiness, work=work, case=case, content=content)
-    day.save()
-    
+    create_or_update(models.Day, {'user':user, 'day':day}, {'happiness':happiness, 'work':work, 'case':case, 'content':content})
+#    day = models.Day(user=user, day=day, happiness=happiness, work=work, case=case, content=content)
+#    day.save()
+def create_or_update(cls, unique_fields, other_fields):
+    q = cls.objects.filter(**unique_fields)
+    if q.count() == 0:
+        print 'Creating day'
+        obj = cls(**dict(unique_fields, **other_fields))
+    else:
+        print 'updating day    '
+        obj = q[0]
+        for k, v in other_fields.iteritems():
+            obj.__setattr__(k, v)
+    obj.save()
 
 def create_user(username, email, password):
     user = User(username=username, email=email)
