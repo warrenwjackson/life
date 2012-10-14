@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block navbar %}{% include "navbar.html" %}{% endblock %}
+{% block content %}	
+ 
+        <form action="/io/" method="post" data-ajax="false">  {% csrf_token %}
+    
+        
+                <label for="data">The text box contains all of your data in CSV format - copy/paste it into Excel or notepad for futher use.  If you would like to update or add new data to the app, paste similarly formated data into the text box.</label>
+                <textarea name="textarea" id="data">{% autoescape off %}{{data}}{% endautoescape %}</textarea>
+            
+            <button type="submit" name="submit" value="submit-value" >Update my data</button>
+            
+        </form>
+{% endblock %}

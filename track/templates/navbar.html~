@@ -1,7 +1,7 @@
         <div data-role="navbar">
 	<ul>
 		<li><a href="/">Input</a></li>
-		<li><a href="/summary/">Summary</a></li>
+		<li><a href="/summary/" data-ajax="false">Summary</a></li>
         <li><a href="/io/">Import/export</a></li>
 	</ul>
 </div>

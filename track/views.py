@@ -5,9 +5,6 @@ from django.core.context_processors import csrf
 from django.shortcuts import render_to_response, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-
-
-
 import modelutils
 
 def loginview(request):
@@ -44,10 +41,27 @@ def day(request):
         day = datetime.date.today()
         modelutils.record_day(user, day, happiness=post.get('happiness'), work=post.get('work'), case=post.get('case'), content=post.get('content'))
         return redirect('/summary/')
-#        return redirect('/summary/')
 
 @login_required(login_url='/login/')
 def summary(request):
     history = modelutils.user_history(request.user)
     happiness_work = [list(x) for x in zip(history['work'],history['happiness'])]
     return render_to_response('display.html', locals())
+
+@login_required(login_url='/login/')
+def io(request):
+    user = request.user
+    if request.method == 'POST':
+        success = modelutils.ingest(user, request.POST['data'])
+        if success:
+            return redirect('/summary/')
+        else:
+            data = "There was a problem with your data.  Please reload and try again."
+            c = locals()
+            c.update(csrf(request))
+            return render_to_response('io.html', c)
+    else:
+        data = modelutils.data_dump(user)
+        c = locals()
+        c.update(csrf(request))
+        return render_to_response('io.html', c)
