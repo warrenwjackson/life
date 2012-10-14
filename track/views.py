@@ -16,7 +16,6 @@ def loginview(request):
     return render_to_response('login.html', c)
 
 def sign_up_in(request):
-    print 'signupin'
     post = request.POST
     if not modelutils.user_exists(post['email']): 
         user = modelutils.create_user(username=post['email'], email=post['email'], password=post['password'])
@@ -38,26 +37,17 @@ def entry(request):
 
 @login_required(login_url='/login/')
 def day(request):
-    print 'here in day'
     user = request.user
     if request.method == 'POST':
-        print 'is post'
         post = request.POST
 #        day = post.get('date')  #TODO: once I figure out a mobile friendly datepicker in JQuery Mobile. 
         day = datetime.date.today()
         modelutils.record_day(user, day, happiness=post.get('happiness'), work=post.get('work'), case=post.get('case'), content=post.get('content'))
-        print 'about to redirect'
-        r = redirect('/summary/')
-        print r
-        return r
+        return redirect('/summary/')
 #        return redirect('/summary/')
 
 @login_required(login_url='/login/')
 def summary(request):
-    print 'summary'
     history = modelutils.user_history(request.user)
     happiness_work = [list(x) for x in zip(history['work'],history['happiness'])]
-    print 'here'
-    r = render_to_response('display.html', locals())
-    print r
-    return r #render_to_response('display.html', locals())
+    return render_to_response('display.html', locals())
