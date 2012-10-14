@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-
+import settings
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^auth/', 'track.views.sign_up_in', name='sign_up_in'),
     url(r'^day/', 'track.views.day', name='day'),
 #    url(r'^static/(?P<path>.*)$', name='serve'),
+url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
     url(r'^summary/', 'track.views.summary', name='summary'),
     url(r'^$', 'track.views.entry', name='entry'),
  
