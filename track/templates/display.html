@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+
+{% block imports %}		
+        <script src="/static/js/highcharts.js"></script>
+ {% endblock %}
+{% block scripts %}		
+<script class="code" type="text/javascript">
+$(function () {
+    var chart;
+    $(document).ready(function() {
+        runchart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'runchart',
+                type: 'line',
+                marginRight: 130,
+                marginBottom: 25
+            },
+            title: {
+                text: 'Life',
+                x: -20 //center
+            },
+            xAxis: {
+                categories: {% autoescape off %}{{history.days}}{% endautoescape %}
+            },
+            yAxis: [{
+                min: 0,
+                max:100,
+                title: {
+                    text: 'Happiness'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },{
+            min: 0, 
+            max: 24,
+            title: {
+                    text: 'Hours worked'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }],
+            opposite: true
+            }],
+            tooltip: {
+                formatter: function() {
+                        return '<b>'+ this.series.name +'</b>' +
+                        '<br/>Day: '+ this.x +
+                        ' <br/>'+ this.series.name+': '+ this.y;
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'left',
+                verticalAlign: 'top',
+                x: 100,
+                y: 70,
+                floating: true,
+                backgroundColor: '#FFFFFF',
+                borderWidth: 1
+            },
+            series: [{
+                name: 'Happiness',
+                data: {{history.happiness}},
+                yAxis:0
+            }, {
+                name: 'Hours worked',
+                data: {{history.work}},
+                yAxis:1
+            }]
+        });
+    });
+    
+    scatterchart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'scatterchart',
+                type: 'scatter',
+                zoomType: 'xy'
+            },
+            title: {
+                text: 'Happiness vs. hours worked'
+            },
+            xAxis: {
+            min:0,
+                max:24,
+                title: {
+                    enabled: true,
+                    text: 'Hours worked'
+                },
+                startOnTick: true,
+                endOnTick: true,
+                showLastLabel: true
+            },
+            yAxis: {
+                min:0,
+                max:100,
+                title: {
+                    text: 'Happiness'
+                }
+            },
+            tooltip: {
+                formatter: function() {
+                        return ''+
+                        this.x +', '+ this.y +' ';
+                }
+            },
+            
+            plotOptions: {
+                scatter: {
+                    marker: {
+                        radius: 5,
+                        states: {
+                            hover: {
+                                enabled: true,
+                                lineColor: 'rgb(100,100,100)'
+                            }
+                        }
+                    },
+                    states: {
+                        hover: {
+                            marker: {
+                                enabled: true
+                            }
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Life',
+                color: 'rgba(119, 152, 191, .5)',
+                data: {{happiness_work}}
+            }]
+        });
+   
+    
+});
+    </script>
+{% endblock %}
+{% block navbar %}{% include "navbar.html" %}{% endblock %}
+{% block urlrole %} data-url="/summary/" {% endblock %}
+{% block content %}
+
+<div id="runchart" style="min-width: 400px; height: 400px; margin: 2%"></div>
+<div id="scatterchart" style="min-width: 400px; height: 400px; margin: 2%;"></div>
+{% endblock %}

@@ -1,0 +1,30 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>Sunny with a chance of burnout</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="/static/css/jquery.mobile-1.2.0.min.css" />
+	<script src="/static/js/jquery-1.8.2.min.js"></script>
+	<script src="/static/js/jquery.mobile-1.2.0.min.js"></script>
+    {% block imports %}{% endblock %}
+    {% block scripts %}{% endblock %}
+</head> 
+<body> 
+
+<div data-role="page" {% block urlrole %}{% endblock %}>
+
+	<div data-role="header">
+		<h1>Sunny with a chance of burnout</h1>
+        
+        {% block navbar %}{% endblock %}
+
+	</div><!-- /header -->
+
+	<div data-role="content">	
+        {% block content %}{% endblock %}
+	</div><!-- /content -->
+
+</div><!-- /page -->
+
+</body>
+</html>

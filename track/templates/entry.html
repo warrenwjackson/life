@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block navbar %}{% include "navbar.html" %}{% endblock %}
+{% block content %}	
+ 
+        <form action="/day/" method="post" data-ajax="false">  {% csrf_token %}
+    
+        <div data-role="fieldcontain">
+                <label for="happiness">How do you feel about life:</label>
+                <input type="range" name="happiness" id="happiness" value="50" min="0" max="100" data-highlight="true" />
+            </div>
+                     
+            <div data-role="fieldcontain">
+                <label for="work">Hours worked today (incl. travel):</label>
+                <input type="range" name="work" id="work" value="8" min="0" max="24" data-highlight="true"/>
+            </div>
+            <div data-role="fieldcontain">
+                <label for="case">Case code (optional):</label>
+                <input type="text" name="case" id="case" />
+            </div>
+            <div data-role="fieldcontain">
+                <label for="content">What are you working on:</label>
+                <input type="text" name="content" id="content" />
+            </div>
+            <button type="submit" name="submit" value="submit-value" >Record my day</button>
+            
+        </form>
+{% endblock %}
