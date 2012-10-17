@@ -65,3 +65,4 @@ def io(request):
         c = locals()
         c.update(csrf(request))
         return render_to_response('io.html', c)
+
